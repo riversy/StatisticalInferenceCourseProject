@@ -1,22 +1,56 @@
 ---
 title: "Investigation of ToothGrowth Dataset"
-author: "riversy@gmail.com"
-date: "July 25, 2015"
+subtitle: Course Project for **Statistical Inference** classes on **Coursera**
+author: "Igor Goltsov <riversy@gmail.com>"
 output: pdf_document
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This work is my own investigation of *ToothGrowth* dataset that describes effect of Vitamin C on tooth growth in Guinea Pigs. There are two methods of Vitamin C suppliement: Orange Juice and Ascorbic Acid. And there are three doses of Vitamin C applied to pigs: 0.5, 1 and 2 miligrams. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## 1. Exporatory Analisys
+
+First of all I woul like to load dataset and have a brief look onto data.
 
 ```{r}
-summary(cars)
+library(datasets)
+data("ToothGrowth")
+head(ToothGrowth)
 ```
 
-You can also embed plots, for example:
+On a brief look we have 6 groups of data about length of tooth. I would like to create additional column *group* what will help me to compare these groups. I will use **dplyr** package to do that. 
 
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+library(dplyr)
+tooth_growth_grouped <- 
+    mutate(ToothGrowth, group = paste(supp, dose, sep = "-")) %>%
+    select(len, group)
+
+head(tooth_growth_grouped)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+We have grouped data and I would like to visualize the density of values for each of group. 
+
+```{r}
+library(ggplot2)
+ggplot(
+        tooth_growth_grouped, 
+        aes(x = factor(group), y = len, fill = factor(group))
+    ) +
+    geom_violin(col = "black", size = 2)
+```
+
+Let's assume that the greater length of tooth is better for us. We may see the influence of Ascorbic Acid have a greatet effect to lenght of tooth then the use Oragnge Juice. And we also may see that the greater value of Vitamin C in Ascorbic Acid has greater influence then less value of Vitamin C.
+
+## 2. Compare Ascorbic Acid quantity influence
+
+I would like to compare two groups *VC-0.5* and *VC-2* as more outstanding groups to the minimum and to the maximum of lengths. Suppose 2mg of Vitamin C that injected with Ascorbic Acid has greater effect for tooth lenght then 0.5mg of Vitamin C that was injected same way. I will use T-Test to check this hypothesis.
+
+```{r}
+vc0.5 <- tooth_growth_grouped$len[tooth_growth_grouped$group == "VC-0.5"]
+vc2 <- tooth_growth_grouped$len[tooth_growth_grouped$group == "VC-2"]
+
+t.test(vc2, vc0.5, var.equal = FALSE, paired = FALSE)
+```
+
+As we may see, T-Test confidence interval is placed above zero so it's mean our hypothesis is true. We may also may see that **mean** of *VC-2* group is much greater then **mean** of *VC-0.5* group that also confirm our suggestion.  
+
