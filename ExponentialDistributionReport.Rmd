@@ -10,7 +10,7 @@ In this work I will create a population of random values using R tools. I would 
 
 ## 0. Prepare data
 
-First of all I would like to generate a population of data. I will use R function *rexp()*. I will use also function *set.seed()* to create my random population reproducible. Rate **lambda** is defined in description of Course Project and should equals *0.2* and population count is defined as **n** that equals to *1000*.
+First of all I would like to generate a population of data. I will use R function *rexp()*. I will also use function *set.seed()* to create my random population reproducible. Rate **lambda** is defined in description of Course Project and should equals *0.2* and population size is defined as **n** that equals to *1000*.
 
 ```{r}
 lambda <- 0.2
@@ -21,7 +21,7 @@ set.seed(1)
 population <- rexp(n, rate = lambda)
 ```
 
-Let's have a look onto hitogram of the theoretical population. I will use **ggplot2** library to build the histogram. On that histogram I will also show the position of **mean** for that population. I will use *set.seed()* again to make the example reproducible.
+Let's have a look onto histogram of the theoretical population. I will use **ggplot2** library to build the plot. On that histogram I will also show the position of the **mean** for that population.
 
 ```{r}
 
@@ -42,7 +42,7 @@ population_mean
 
 ## 1. Sample Means
 
-I would like to generate 40 samples by 1000 random variables now using same **lambda** value. And check it. 
+I would like to generate 40 samples by 1000 random variables now using same **lambda** value. And check it.  I will use *set.seed()* again to make the example reproducible.
 
 ```{r}
 samples = NULL
@@ -60,11 +60,11 @@ ggplot(NULL,
 
 ```
 
-The *mean* of that sampleas will be defined as:
+The *mean* of that samples will be defined as:
 
 ```{r}
-sampleas_mean <- mean(samples)
-sampleas_mean
+samples_mean <- mean(samples)
+samples_mean
 ```
 
 If we compare *mean* of theoretical population and sample's mean, we may see it quite different but it pretty close. It's different because we used samples of random variables. And it close due to Central Limit Theorem works here. 
@@ -72,7 +72,7 @@ If we compare *mean* of theoretical population and sample's mean, we may see it 
 ```{r}
 rbind(
     population_mean,
-    sampleas_mean
+    samples_mean
 )
 ```
 
@@ -90,7 +90,7 @@ rbind(
 )
 ```
 
-The variance of the sampleas was significantly reduced if compate to the theoretical population of data values. 
+The variance of the samples was significantly reduced if compate to the theoretical population of data values. 
 
 ## 3. Normality of the Distrubution
 
