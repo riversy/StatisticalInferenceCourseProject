@@ -1,22 +1,107 @@
 ---
-title: "Investigation of Exponential Distribution unsing Random Samples"
+title: "Investigation of Exponential Distribution"
 author: "riversy@gmail.com"
 date: "July 25, 2015"
 output: pdf_document
+subtitle: Course Project for **Statistical Inference** classes on Coursera
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This is my own investigation of Exponential Distribution's behaviour created as Course Project for classes "**Statistical Inference**" on Coursera. 
+In this work I will create a population of random values using R tools. I would like to investigate how the theory of Central Limited Theorem correlates with randomly created population and it's samples. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## 0. Prepare data to operate with
+
+First of all I would like to generate a population of data. I will use R function *rexp()*. I will use also function *set.seed()* to create my random population reproducible. Rate **lambda** is defined in description of Course Project and should equals *0.2* and population count is defined as **n** that equals to *1000*.
 
 ```{r}
-summary(cars)
+lambda <- 0.2
+n <- 1000
+sample_n <- 40
+
+set.seed(1)
+population <- rexp(n, rate = lambda)
 ```
 
-You can also embed plots, for example:
+Let's have a look onto hitogram of the theoretical population. I will use **ggplot2** library to build the histogram. On that histogram I will also show the position of **mean** for that population. I will use *set.seed()* again to make the example reproducible.
 
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+
+library(ggplot2)
+ggplot(NULL,
+       aes(x = population)
+    ) +
+    geom_histogram(fill = "white", color = "black") +
+    geom_vline(xintercept = mean(population), color = "blue", size = 1)
+```
+ 
+I would like to define the *mean* of that theoretical population. 
+
+```{r}
+population_mean <- mean(population)
+population_mean
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## 1. Sample Means
+
+I would like to generate 40 samples by 1000 random variables now using same **lambda** value. And check it. 
+
+```{r}
+samples = NULL
+for (i in 1:n){
+    set.seed(i + 1)
+    sample <- rexp(sample_n, rate = lambda)
+    samples <- c(samples, mean(sample))
+}
+
+ggplot(NULL,
+       aes(x = samples)
+    ) +
+    geom_histogram(fill = "white", color = "black") +
+    geom_vline(xintercept = mean(samples), color = "blue", size = 1)
+
+```
+
+The *mean* of that sampleas will be defined as:
+
+```{r}
+sampleas_mean <- mean(samples)
+sampleas_mean
+```
+
+If we compare *mean* of theoretical population and sample's mean, we may see it quite different but it pretty close. It's different because we used samples of random variables. And it close due to Central Limit Theorem works here. 
+
+```{r}
+rbind(
+    population_mean,
+    sampleas_mean
+)
+```
+
+## 2. Sample Variance
+
+In this section I would like to compare the variance of the population of the data versus variance of the populations of samples by 40 objects in the sample. 
+
+```{r}
+population_variance <- var(population)
+sample_variance <- var(samples)
+
+rbind(
+    population_variance,
+    sample_variance
+)
+```
+
+The variance of the sampleas was significantly reduced if compate to the theoretical population of data values. 
+
+## 3. Normality of the Distrubution
+
+Large collection of random exponentials and the distribution of a large collection of averages of 40 exponentials has different variances. But in the same time these collections has a same **mean** values. So the distribution is normally distributed according to Cenral Limit Theorem.
+
+
+
+
+
+
+
+
+[1](http://www.lalala.com)
