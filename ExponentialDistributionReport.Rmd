@@ -1,15 +1,14 @@
 ---
 title: "Investigation of Exponential Distribution"
-author: "riversy@gmail.com"
-date: "July 25, 2015"
-output: pdf_document
 subtitle: Course Project for **Statistical Inference** classes on Coursera
+author: "Igor Goltsov <riversy@gmail.com>"
+output: pdf_document
 ---
 
 This is my own investigation of Exponential Distribution's behaviour created as Course Project for classes "**Statistical Inference**" on Coursera. 
 In this work I will create a population of random values using R tools. I would like to investigate how the theory of Central Limited Theorem correlates with randomly created population and it's samples. 
 
-## 0. Prepare data to operate with
+## 0. Prepare data
 
 First of all I would like to generate a population of data. I will use R function *rexp()*. I will use also function *set.seed()* to create my random population reproducible. Rate **lambda** is defined in description of Course Project and should equals *0.2* and population count is defined as **n** that equals to *1000*.
 
@@ -97,11 +96,3 @@ The variance of the sampleas was significantly reduced if compate to the theoret
 
 Large collection of random exponentials and the distribution of a large collection of averages of 40 exponentials has different variances. But in the same time these collections has a same **mean** values. So the distribution is normally distributed according to Cenral Limit Theorem.
 
-
-
-
-
-
-
-
-[1](http://www.lalala.com)
