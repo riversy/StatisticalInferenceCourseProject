@@ -17,7 +17,7 @@ data("ToothGrowth")
 head(ToothGrowth)
 ```
 
-On a brief look we have 6 groups of data about length of tooth. I would like to create additional column *group* what will help me to compare these groups. I will use **dplyr** package to do that. 
+On a brief look we have 6 groups of data due to different variants of suppliement. I would like to create additional column *group* what will help me to compare these groups. I will use **dplyr** package to do that. 
 
 ```{r}
 library(dplyr)
@@ -43,7 +43,7 @@ Let's assume that the greater length of tooth is better for us. We may see the i
 
 ## 2. Compare Ascorbic Acid quantity influence
 
-I would like to compare two groups *VC-0.5* and *VC-2* as more outstanding groups to the minimum and to the maximum of lengths. Suppose 2mg of Vitamin C that injected with Ascorbic Acid has greater effect for tooth lenght then 0.5mg of Vitamin C that was injected same way. I will use T-Test to check this hypothesis.
+I would like to compare two groups *VC-0.5* and *VC-2* as more outstanding groups to the minimum and to the maximum of lengths. Suppose, 2mg of Vitamin C that supplied with Ascorbic Acid has greater effect for tooth length then 0.5mg of Vitamin C that was supplied same way. I will use T-Test to check this hypothesis.
 
 ```{r}
 vc0.5 <- tooth_growth_grouped$len[tooth_growth_grouped$group == "VC-0.5"]
@@ -52,5 +52,5 @@ vc2 <- tooth_growth_grouped$len[tooth_growth_grouped$group == "VC-2"]
 t.test(vc2, vc0.5, var.equal = FALSE, paired = FALSE)
 ```
 
-As we may see, T-Test confidence interval is placed above zero so it's mean our hypothesis is true. We may also may see that **mean** of *VC-2* group is much greater then **mean** of *VC-0.5* group that also confirm our suggestion.  
+As we may see, T-Test confidence interval is placed above zero so it's mean that our hypothesis is true. We may also may see that **mean** of *VC-2* group is much greater then **mean** of *VC-0.5* group that also confirm our suggestion.  
 
